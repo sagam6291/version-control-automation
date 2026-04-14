@@ -107,38 +107,72 @@
   .btn-login-again:hover { background: #2a2a2a !important; }
 </style>
 
-<div class="outer">
+<div class="outer" id="app-root" data-testid="app-root">
 
   <!-- Cover -->
-  <div class="screen active" id="cover">
+  <div class="screen active" id="cover" data-testid="screen-cover">
     <div class="cover-title">Free App<br>Onboarding<br>Screens</div>
-    <button class="btn-get-started" onclick="show('login')">Get started</button>
+    <button
+      id="btn-get-started"
+      data-testid="btn-get-started"
+      class="btn-get-started"
+      onclick="show('login')"
+    >Get started</button>
   </div>
 
-  <!-- login -->
-  <div class="screen" id="login">
+  <!-- Login -->
+  <div class="screen" id="login" data-testid="screen-login">
     <div class="card-wrap" style="background:#d4d4d4;">
       <div class="card">
         <span class="welcome-label">Welcome</span>
         <div class="card-title">login</div>
 
         <div class="field-group">
-          <label class="field-label">Enter your username or email address</label>
-          <input class="field-input" type="text" placeholder="Username or email address" />
+          <label class="field-label" for="input-username">Enter your username or email address</label>
+          <input
+            id="input-username"
+            data-testid="input-username"
+            class="field-input"
+            type="text"
+            placeholder="Username or email address"
+            name="username"
+            autocomplete="username"
+          />
         </div>
         <div class="field-group">
-          <label class="field-label">Enter your Password</label>
-          <input class="field-input no-border" type="password" placeholder="Password" />
-          <div class="forgot-row"><span class="forgot-link">Forgot Password</span></div>
+          <label class="field-label" for="input-password">Enter your Password</label>
+          <input
+            id="input-password"
+            data-testid="input-password"
+            class="field-input no-border"
+            type="password"
+            placeholder="Password"
+            name="password"
+            autocomplete="current-password"
+          />
+          <div class="forgot-row">
+            <span
+              id="link-forgot-password"
+              data-testid="link-forgot-password"
+              class="forgot-link"
+              role="button"
+              tabindex="0"
+            >Forgot Password</span>
+          </div>
         </div>
 
-        <button class="btn-primary" onclick="show('logout')">login</button>
+        <button
+          id="btn-login-submit"
+          data-testid="btn-login-submit"
+          class="btn-primary"
+          onclick="show('logout')"
+        >login</button>
       </div>
     </div>
   </div>
 
   <!-- Logout -->
-  <div class="screen" id="logout">
+  <div class="screen" id="logout" data-testid="screen-logout">
     <div class="card-wrap" style="background:#d4d4d4;">
       <div class="logout-card">
         <svg class="spiral-bg" viewBox="0 0 440 520" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
@@ -170,8 +204,17 @@
           </g>
         </svg>
         <div class="logout-content">
-          <div class="logout-text">You are logged out</div>
-          <button class="btn-login-again" onclick="show('cover')">Login back again</button>
+          <div
+            id="text-logged-out"
+            data-testid="text-logged-out"
+            class="logout-text"
+          >You are logged out</div>
+          <button
+            id="btn-login-again"
+            data-testid="btn-login-again"
+            class="btn-login-again"
+            onclick="show('cover')"
+          >Login back again</button>
         </div>
       </div>
     </div>
