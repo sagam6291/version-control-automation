@@ -1,9 +1,40 @@
 
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
-  .outer { background: #d4d4d4; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; }
+  .outer { background: #d4d4d4; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; position: relative; }
   .screen { display: none; width: 100%; }
   .screen.active { display: flex; }
+
+  .logo {
+    position: absolute;
+    top: 18px;
+    left: 22px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    z-index: 100;
+    text-decoration: none;
+  }
+  .logo-mark {
+    width: 32px;
+    height: 32px;
+    background: #2d2b7a;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .logo-mark svg { width: 18px; height: 18px; }
+  .logo-wordmark {
+    font-size: 14px;
+    font-weight: 700;
+    color: #2d2b7a;
+    letter-spacing: -0.3px;
+  }
+  .logo:hover .logo-mark { background: #23216b; }
+  .logo:hover .logo-wordmark { color: #23216b; }
 
   #cover {
     background: #d9d9d9;
@@ -109,6 +140,19 @@
 
 <div class="outer" id="app-root" data-testid="app-root">
 
+  <!-- Global Logo -->
+  <div class="logo" id="logo" data-testid="logo" role="button" tabindex="0" aria-label="Go to home" onclick="show('cover')">
+    <div class="logo-mark">
+      <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="2" y="2" width="6" height="6" rx="1.5" fill="#fff"/>
+        <rect x="10" y="2" width="6" height="6" rx="1.5" fill="#fff" opacity="0.6"/>
+        <rect x="2" y="10" width="6" height="6" rx="1.5" fill="#fff" opacity="0.6"/>
+        <rect x="10" y="10" width="6" height="6" rx="1.5" fill="#fff" opacity="0.3"/>
+      </svg>
+    </div>
+    <span class="logo-wordmark">AppName</span>
+  </div>
+
   <!-- Cover -->
   <div class="screen active" id="cover" data-testid="screen-cover">
     <div class="cover-title">Free App<br>Onboarding<br>Screens</div>
@@ -204,16 +248,12 @@
           </g>
         </svg>
         <div class="logout-content">
-          <div
-            id="text-logged-out"
-            data-testid="text-logged-out"
-            class="logout-text"
-          >You are logged out</div>
+          <div id="text-logged-out" data-testid="text-logged-out" class="logout-text">You are logged out</div>
           <button
             id="btn-login-again"
             data-testid="btn-login-again"
             class="btn-login-again"
-            onclick="show('cover')"
+            onclick="show('logout')"
           >Login back again</button>
         </div>
       </div>
@@ -227,4 +267,7 @@ function show(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
 }
+document.getElementById('logo').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter' || e.key === ' ') show('cover');
+});
 </script>
