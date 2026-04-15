@@ -17,23 +17,23 @@
     text-decoration: none;
   }
   .logo-mark {
-    width: 32px;
-    height: 32px;
-    background: #2d2b7a;
-    border-radius: 8px;
+    width: 36px;
+    height: 36px;
+    background: #7c3aed;
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
   }
-  .logo-mark svg { width: 18px; height: 18px; }
+  .logo-mark svg { width: 22px; height: 22px; }
   .logo-wordmark {
     font-size: 14px;
     font-weight: 700;
     color: #2d2b7a;
     letter-spacing: -0.3px;
   }
-  .logo:hover .logo-mark { background: #23216b; }
+  .logo:hover .logo-mark { background: #6d28d9; }
   .logo:hover .logo-wordmark { color: #23216b; }
 
   #cover {
@@ -138,34 +138,23 @@
   .btn-login-again:hover { background: #2a2a2a !important; }
 </style>
 
-<div class="outer" id="app-root" data-testid="app-root">
+<div class="outer" id="app-root">
 
-  <!-- Global Logo -->
-  <div class="logo" id="logo" data-testid="logo" role="button" tabindex="0" aria-label="Go to home" onclick="show('cover')">
+  <div class="logo" id="logo" role="button" tabindex="0" aria-label="Go to home" onclick="show('cover')">
     <div class="logo-mark">
-      <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="2" y="2" width="6" height="6" rx="1.5" fill="#fff"/>
-        <rect x="10" y="2" width="6" height="6" rx="1.5" fill="#fff" opacity="0.6"/>
-        <rect x="2" y="10" width="6" height="6" rx="1.5" fill="#fff" opacity="0.6"/>
-        <rect x="10" y="10" width="6" height="6" rx="1.5" fill="#fff" opacity="0.3"/>
+      <svg viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <polyline points="4,11 9,16 18,6" stroke="#fff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
     </div>
     <span class="logo-wordmark">AppName</span>
   </div>
 
-  <!-- Cover -->
-  <div class="screen active" id="cover" data-testid="screen-cover">
+  <div class="screen active" id="cover">
     <div class="cover-title">Free App<br>Onboarding<br>Screens</div>
-    <button
-      id="btn-get-started"
-      data-testid="btn-get-started"
-      class="btn-get-started"
-      onclick="show('login')"
-    >Get started</button>
+    <button class="btn-get-started" onclick="show('login')">Get started</button>
   </div>
 
-  <!-- Login -->
-  <div class="screen" id="login" data-testid="screen-login">
+  <div class="screen" id="login">
     <div class="card-wrap" style="background:#d4d4d4;">
       <div class="card">
         <span class="welcome-label">Welcome</span>
@@ -173,50 +162,22 @@
 
         <div class="field-group">
           <label class="field-label" for="input-username">Enter your username or email address</label>
-          <input
-            id="input-username"
-            data-testid="input-username"
-            class="field-input"
-            type="text"
-            placeholder="Username or email address"
-            name="username"
-            autocomplete="username"
-          />
+          <input id="input-username" class="field-input" type="text" placeholder="Username or email address" name="username" autocomplete="username"/>
         </div>
         <div class="field-group">
           <label class="field-label" for="input-password">Enter your Password</label>
-          <input
-            id="input-password"
-            data-testid="input-password"
-            class="field-input no-border"
-            type="password"
-            placeholder="Password"
-            name="password"
-            autocomplete="current-password"
-          />
+          <input id="input-password" class="field-input no-border" type="password" placeholder="Password" name="password" autocomplete="current-password"/>
           <div class="forgot-row">
-            <span
-              id="link-forgot-password"
-              data-testid="link-forgot-password"
-              class="forgot-link"
-              role="button"
-              tabindex="0"
-            >Forgot Password</span>
+            <span class="forgot-link" role="button" tabindex="0">Forgot Password</span>
           </div>
         </div>
 
-        <button
-          id="btn-login-submit"
-          data-testid="btn-login-submit"
-          class="btn-primary"
-          onclick="show('logout')"
-        >login</button>
+        <button class="btn-primary" onclick="show('logout')">login</button>
       </div>
     </div>
   </div>
 
-  <!-- Logout -->
-  <div class="screen" id="logout" data-testid="screen-logout">
+  <div class="screen" id="logout">
     <div class="card-wrap" style="background:#d4d4d4;">
       <div class="logout-card">
         <svg class="spiral-bg" viewBox="0 0 440 520" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
@@ -248,13 +209,8 @@
           </g>
         </svg>
         <div class="logout-content">
-          <div id="text-logged-out" data-testid="text-logged-out" class="logout-text">You are logged out</div>
-          <button
-            id="btn-login-again"
-            data-testid="btn-login-again"
-            class="btn-login-again"
-            onclick="show('logout')"
-          >Login back again</button>
+          <div class="logout-text">You are logged out</div>
+          <button class="btn-login-again" onclick="show('cover')">Login back again</button>
         </div>
       </div>
     </div>
