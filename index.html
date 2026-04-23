@@ -1,10 +1,16 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AppName – Onboarding</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
   .outer { background: #d4d4d4; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; position: relative; }
   .screen { display: none; width: 100%; }
   .screen.active { display: flex; }
 
+  /* ── Logo ── */
   .logo {
     position: absolute;
     top: 18px;
@@ -27,15 +33,11 @@
     flex-shrink: 0;
   }
   .logo-mark svg { width: 22px; height: 22px; }
-  .logo-wordmark {
-    font-size: 14px;
-    font-weight: 700;
-    color: #2d2b7a;
-    letter-spacing: -0.3px;
-  }
+  .logo-wordmark { font-size: 14px; font-weight: 700; color: #2d2b7a; letter-spacing: -0.3px; }
   .logo:hover .logo-mark { background: #6d28d9; }
   .logo:hover .logo-wordmark { color: #23216b; }
 
+  /* ── Cover ── */
   #cover {
     background: #d9d9d9;
     border-radius: 18px;
@@ -52,8 +54,8 @@
     margin-bottom: clamp(28px, 4vw, 52px);
   }
   .btn-get-started {
-    background: #2d2b7a !important;
-    color: #fff !important;
+    background: #2d2b7a;
+    color: #fff;
     border: none;
     border-radius: 10px;
     padding: 8px 20px;
@@ -62,8 +64,9 @@
     cursor: pointer;
     width: fit-content;
   }
-  .btn-get-started:hover { background: #23216b !important; }
+  .btn-get-started:hover { background: #23216b; }
 
+  /* ── Login ── */
   #login { align-items: center; justify-content: center; }
   .card-wrap { min-height: 100%; display: flex; align-items: center; justify-content: center; width: 100%; }
   .card {
@@ -92,13 +95,33 @@
   .field-input.no-border { border: 1.5px solid #e0e0e0; }
   .field-input.no-border:focus { border-color: #93b8f0; }
 
-  .forgot-row { text-align: right; margin-top: 6px; }
-  .forgot-link { color: #5a8fe0; font-size: clamp(11px, 1.3vw, 13px); cursor: pointer; }
+  /* Error state */
+  .field-input[aria-invalid="true"] { border-color: #d93025; }
+  .field-error {
+    display: none;
+    font-size: 12px;
+    color: #d93025;
+    margin-top: 5px;
+  }
+  .field-error.visible { display: block; }
+
+  /* Alert banner */
+  [role="alert"] {
+    background: #fde8e7;
+    border: 1px solid #f5c6c4;
+    color: #a61c00;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 13px;
+    margin-bottom: 14px;
+    display: none;
+  }
+  [role="alert"].visible { display: block; }
 
   .btn-primary {
     width: 100%;
-    background: #6b8f2a !important;
-    color: #fff !important;
+    background: #6b8f2a;
+    color: #fff;
     border: none;
     border-radius: 10px;
     padding: clamp(12px, 2vw, 15px);
@@ -107,8 +130,10 @@
     cursor: pointer;
     margin-top: clamp(18px, 3vw, 28px);
   }
-  .btn-primary:hover { background: #5a7a22 !important; }
+  .btn-primary:hover { background: #5a7a22; }
+  .btn-primary:disabled { background: #aaa; cursor: not-allowed; }
 
+  /* ── Logout ── */
   #logout { align-items: center; justify-content: center; }
   .logout-card {
     background: #f0f0f8;
@@ -126,8 +151,8 @@
   .logout-content { position: relative; z-index: 2; text-align: center; padding: 20px; }
   .logout-text { font-size: clamp(16px, 2.5vw, 22px); font-weight: 700; color: #111; margin-bottom: 16px; }
   .btn-login-again {
-    background: #111 !important;
-    color: #fff !important;
+    background: #111;
+    color: #fff;
     border: none;
     border-radius: 8px;
     padding: clamp(10px, 1.5vw, 13px) clamp(20px, 3vw, 30px);
@@ -135,92 +160,284 @@
     font-weight: 500;
     cursor: pointer;
   }
-  .btn-login-again:hover { background: #2a2a2a !important; }
+  .btn-login-again:hover { background: #2a2a2a; }
 </style>
+</head>
+<body>
 
-<div class="outer" id="app-root">
+<div class="outer" id="app-root" data-testid="app-root">
 
-  <div class="logo" id="logo" role="button" tabindex="0" aria-label="Go to home" onclick="show('cover')">
-    <div class="logo-mark">
+  <!-- Logo / Home nav -->
+  <a
+    class="logo"
+    id="logo"
+    href="#"
+    role="link"
+    aria-label="AppName – Go to home"
+    data-testid="logo-home-link"
+    data-action="navigate-home"
+  >
+    <div class="logo-mark" aria-hidden="true">
       <svg viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
         <polyline points="4,11 9,16 18,6" stroke="#fff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
     </div>
     <span class="logo-wordmark">AppName</span>
-  </div>
+  </a>
 
-  <div class="screen active" id="cover">
-    <div class="cover-title">Free App<br>Onboarding<br>Screens</div>
-    <button class="btn-get-started" onclick="show('login')">Get started</button>
-  </div>
+  <!-- ══════════════════════════════════
+       Screen: Cover / Landing
+  ══════════════════════════════════ -->
+  <section
+    class="screen active"
+    id="screen-cover"
+    data-testid="screen-cover"
+    aria-label="Landing screen"
+    data-screen="cover"
+  >
+    <h1 class="cover-title">Free App<br>Onboarding<br>Screens</h1>
+    <button
+      class="btn-get-started"
+      id="btn-get-started"
+      data-testid="btn-get-started"
+      data-action="navigate-login"
+      aria-label="Get started – go to login"
+      type="button"
+    >Get started</button>
+  </section>
 
-  <div class="screen" id="login">
+  <!-- ══════════════════════════════════
+       Screen: Login
+  ══════════════════════════════════ -->
+  <section
+    class="screen"
+    id="screen-login"
+    data-testid="screen-login"
+    aria-label="Login screen"
+    data-screen="login"
+  >
     <div class="card-wrap" style="background:#d4d4d4;">
-      <div class="card">
-        <span class="welcome-label">Welcome</span>
-        <div class="card-title">login</div>
+      <div class="card" role="main">
+        <span class="welcome-label" aria-hidden="true">Welcome</span>
+        <h2 class="card-title" id="login-heading">Login</h2>
 
-        <div class="field-group">
-          <label class="field-label" for="input-username">Enter your username or email address</label>
-          <input id="input-username" class="field-input" type="text" placeholder="Username or email address" name="username" autocomplete="username"/>
-        </div>
-        <div class="field-group">
-          <label class="field-label" for="input-password">Enter your Password</label>
-          <input id="input-password" class="field-input no-border" type="password" placeholder="Password" name="password" autocomplete="current-password"/>
-        </div>
+        <!-- Alert banner for form-level errors -->
+        <div
+          id="login-alert"
+          role="alert"
+          aria-live="assertive"
+          aria-atomic="true"
+          data-testid="login-alert"
+        ></div>
 
-        <button class="btn-primary" onclick="show('logout')">login</button>
+        <form
+          id="login-form"
+          data-testid="login-form"
+          aria-labelledby="login-heading"
+          novalidate
+          onsubmit="handleLogin(event)"
+        >
+          <div class="field-group">
+            <label class="field-label" for="input-username">
+              Username or email address
+            </label>
+            <input
+              id="input-username"
+              class="field-input"
+              type="text"
+              name="username"
+              placeholder="Username or email address"
+              autocomplete="username"
+              data-testid="input-username"
+              aria-required="true"
+              aria-describedby="username-error"
+              spellcheck="false"
+            />
+            <span
+              id="username-error"
+              class="field-error"
+              role="alert"
+              data-testid="username-error"
+            >Please enter your username or email.</span>
+          </div>
+
+          <div class="field-group">
+            <label class="field-label" for="input-password">
+              Password
+            </label>
+            <input
+              id="input-password"
+              class="field-input no-border"
+              type="password"
+              name="password"
+              placeholder="Password"
+              autocomplete="current-password"
+              data-testid="input-password"
+              aria-required="true"
+              aria-describedby="password-error"
+            />
+            <span
+              id="password-error"
+              class="field-error"
+              role="alert"
+              data-testid="password-error"
+            >Please enter your password.</span>
+          </div>
+
+          <button
+            class="btn-primary"
+            id="btn-login-submit"
+            data-testid="btn-login-submit"
+            data-action="submit-login"
+            aria-label="Login"
+            type="submit"
+          >Login</button>
+        </form>
       </div>
     </div>
-  </div>
+  </section>
 
-  <div class="screen" id="logout">
+  <!-- ══════════════════════════════════
+       Screen: Logged-out confirmation
+  ══════════════════════════════════ -->
+  <section
+    class="screen"
+    id="screen-logout"
+    data-testid="screen-logout"
+    aria-label="Logged out screen"
+    data-screen="logout"
+    aria-live="polite"
+  >
     <div class="card-wrap" style="background:#d4d4d4;">
-      <div class="logout-card">
-        <svg class="spiral-bg" viewBox="0 0 440 520" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+      <div class="logout-card" role="status" aria-label="You are logged out">
+        <svg class="spiral-bg" viewBox="0 0 440 520" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
           <rect width="440" height="520" fill="#f0f0f8"/>
           <g fill="none" stroke="#6677cc" stroke-width="0.7" opacity="0.45">
-            <rect x="8" y="8" width="424" height="504" rx="2"/>
-            <rect x="28" y="28" width="384" height="464" rx="2" transform="rotate(3.5 220 260)"/>
-            <rect x="48" y="48" width="344" height="424" rx="2" transform="rotate(7 220 260)"/>
-            <rect x="68" y="68" width="304" height="384" rx="2" transform="rotate(10.5 220 260)"/>
-            <rect x="88" y="88" width="264" height="344" rx="2" transform="rotate(14 220 260)"/>
+            <rect x="8"   y="8"   width="424" height="504" rx="2"/>
+            <rect x="28"  y="28"  width="384" height="464" rx="2" transform="rotate(3.5 220 260)"/>
+            <rect x="48"  y="48"  width="344" height="424" rx="2" transform="rotate(7 220 260)"/>
+            <rect x="68"  y="68"  width="304" height="384" rx="2" transform="rotate(10.5 220 260)"/>
+            <rect x="88"  y="88"  width="264" height="344" rx="2" transform="rotate(14 220 260)"/>
             <rect x="108" y="108" width="224" height="304" rx="2" transform="rotate(17.5 220 260)"/>
             <rect x="128" y="128" width="184" height="264" rx="2" transform="rotate(21 220 260)"/>
             <rect x="148" y="148" width="144" height="224" rx="2" transform="rotate(24.5 220 260)"/>
             <rect x="168" y="168" width="104" height="184" rx="2" transform="rotate(28 220 260)"/>
-            <rect x="188" y="188" width="64" height="144" rx="2" transform="rotate(31.5 220 260)"/>
-            <rect x="208" y="208" width="24" height="104" rx="2" transform="rotate(35 220 260)"/>
+            <rect x="188" y="188" width="64"  height="144" rx="2" transform="rotate(31.5 220 260)"/>
+            <rect x="208" y="208" width="24"  height="104" rx="2" transform="rotate(35 220 260)"/>
           </g>
           <g fill="none" stroke="#4499bb" stroke-width="0.5" opacity="0.3">
-            <rect x="18" y="18" width="404" height="484" rx="2" transform="rotate(-3 220 260)"/>
-            <rect x="38" y="38" width="364" height="444" rx="2" transform="rotate(-6 220 260)"/>
-            <rect x="58" y="58" width="324" height="404" rx="2" transform="rotate(-9 220 260)"/>
-            <rect x="78" y="78" width="284" height="364" rx="2" transform="rotate(-12 220 260)"/>
-            <rect x="98" y="98" width="244" height="324" rx="2" transform="rotate(-15 220 260)"/>
+            <rect x="18"  y="18"  width="404" height="484" rx="2" transform="rotate(-3 220 260)"/>
+            <rect x="38"  y="38"  width="364" height="444" rx="2" transform="rotate(-6 220 260)"/>
+            <rect x="58"  y="58"  width="324" height="404" rx="2" transform="rotate(-9 220 260)"/>
+            <rect x="78"  y="78"  width="284" height="364" rx="2" transform="rotate(-12 220 260)"/>
+            <rect x="98"  y="98"  width="244" height="324" rx="2" transform="rotate(-15 220 260)"/>
             <rect x="118" y="118" width="204" height="284" rx="2" transform="rotate(-18 220 260)"/>
             <rect x="138" y="138" width="164" height="244" rx="2" transform="rotate(-21 220 260)"/>
             <rect x="158" y="158" width="124" height="204" rx="2" transform="rotate(-24 220 260)"/>
-            <rect x="178" y="178" width="84" height="164" rx="2" transform="rotate(-27 220 260)"/>
-            <rect x="198" y="198" width="44" height="124" rx="2" transform="rotate(-30 220 260)"/>
+            <rect x="178" y="178" width="84"  height="164" rx="2" transform="rotate(-27 220 260)"/>
+            <rect x="198" y="198" width="44"  height="124" rx="2" transform="rotate(-30 220 260)"/>
           </g>
         </svg>
         <div class="logout-content">
-          <div class="logout-text">You are logged out</div>
-          <button class="btn-login-again" onclick="show('cover')">Login back again</button>
+          <p class="logout-text" id="logout-message">You are logged out</p>
+          <button
+            class="btn-login-again"
+            id="btn-login-again"
+            data-testid="btn-login-again"
+            data-action="navigate-home"
+            aria-label="Login back again"
+            type="button"
+          >Login back again</button>
         </div>
       </div>
     </div>
-  </div>
+  </section>
 
-</div>
+</div><!-- /#app-root -->
 
 <script>
-function show(id) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-}
-document.getElementById('logo').addEventListener('keydown', function(e) {
-  if (e.key === 'Enter' || e.key === ' ') show('cover');
-});
+  // ─── Screen navigation ──────────────────────────────────────────────────────
+  function show(screenId) {
+    document.querySelectorAll('.screen').forEach(s => {
+      s.classList.remove('active');
+      s.setAttribute('aria-hidden', 'true');
+    });
+    const target = document.getElementById('screen-' + screenId);
+    if (target) {
+      target.classList.add('active');
+      target.removeAttribute('aria-hidden');
+      // Move focus to the first heading / interactive element for a11y
+      const focusTarget = target.querySelector('h1, h2, [autofocus], button');
+      if (focusTarget) focusTarget.focus({ preventScroll: true });
+    }
+    // Expose current screen for automation inspection
+    document.getElementById('app-root').setAttribute('data-current-screen', screenId);
+  }
+
+  // ─── Login form validation + submission ─────────────────────────────────────
+  function handleLogin(e) {
+    e.preventDefault();
+    const usernameEl  = document.getElementById('input-username');
+    const passwordEl  = document.getElementById('input-password');
+    const usernameErr = document.getElementById('username-error');
+    const passwordErr = document.getElementById('password-error');
+    const alert       = document.getElementById('login-alert');
+    const btn         = document.getElementById('btn-login-submit');
+
+    // Reset previous error state
+    [usernameEl, passwordEl].forEach(el => {
+      el.removeAttribute('aria-invalid');
+      el.classList.remove('error');
+    });
+    [usernameErr, passwordErr].forEach(el => el.classList.remove('visible'));
+    alert.classList.remove('visible');
+    alert.textContent = '';
+
+    let valid = true;
+
+    if (!usernameEl.value.trim()) {
+      usernameEl.setAttribute('aria-invalid', 'true');
+      usernameErr.classList.add('visible');
+      valid = false;
+    }
+    if (!passwordEl.value) {
+      passwordEl.setAttribute('aria-invalid', 'true');
+      passwordErr.classList.add('visible');
+      valid = false;
+    }
+
+    if (!valid) return;
+
+    // Disable button to prevent double-submit; automation can poll this
+    btn.disabled = true;
+    btn.setAttribute('aria-busy', 'true');
+    btn.setAttribute('data-state', 'loading');
+
+    // Simulate async login (replace with real fetch)
+    setTimeout(() => {
+      btn.disabled = false;
+      btn.removeAttribute('aria-busy');
+      btn.setAttribute('data-state', 'idle');
+      show('logout');
+    }, 400);
+  }
+
+  // ─── Wire up navigation buttons ─────────────────────────────────────────────
+  document.getElementById('btn-get-started').addEventListener('click', () => show('login'));
+  document.getElementById('btn-login-again').addEventListener('click', () => show('cover'));
+  document.getElementById('logo').addEventListener('click', e => {
+    e.preventDefault();
+    show('cover');
+  });
+  document.getElementById('logo').addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); show('cover'); }
+  });
+
+  // ─── Set initial state ──────────────────────────────────────────────────────
+  document.getElementById('app-root').setAttribute('data-current-screen', 'cover');
+  document.querySelectorAll('.screen:not(.active)').forEach(s =>
+    s.setAttribute('aria-hidden', 'true')
+  );
 </script>
+</body>
+</html>
