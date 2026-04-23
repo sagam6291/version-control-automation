@@ -172,10 +172,12 @@
     class="logo"
     id="logo"
     href="#"
-    role="link"
+    role="button"
+    tabindex="0"
     aria-label="AppName – Go to home"
     data-testid="logo-home-link"
     data-action="navigate-home"
+    data-state="idle"
   >
     <div class="logo-mark" aria-hidden="true">
       <svg viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -203,6 +205,8 @@
       data-action="navigate-login"
       aria-label="Get started – go to login"
       type="button"
+      tabindex="0"
+      data-state="idle"
     >Get started</button>
   </section>
 
@@ -291,6 +295,8 @@
             data-action="submit-login"
             aria-label="Login"
             type="submit"
+            tabindex="0"
+            data-state="idle"
           >Login</button>
         </form>
       </div>
@@ -347,6 +353,8 @@
             data-action="navigate-home"
             aria-label="Login back again"
             type="button"
+            tabindex="0"
+            data-state="idle"
           >Login back again</button>
         </div>
       </div>
@@ -423,15 +431,17 @@
   }
 
   // ─── Wire up navigation buttons ─────────────────────────────────────────────
-  document.getElementById('btn-get-started').addEventListener('click', () => show('login'));
-  document.getElementById('btn-login-again').addEventListener('click', () => show('cover'));
-  document.getElementById('logo').addEventListener('click', e => {
-    e.preventDefault();
-    show('cover');
-  });
-  document.getElementById('logo').addEventListener('keydown', e => {
-    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); show('cover'); }
-  });
+  function addNavListeners(id, action) {
+    const el = document.getElementById(id);
+    el.addEventListener('click', e => { e.preventDefault(); action(); });
+    el.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); action(); }
+    });
+  }
+
+  addNavListeners('btn-get-started', () => show('login'));
+  addNavListeners('btn-login-again', () => show('cover'));
+  addNavListeners('logo',            () => show('cover'));
 
   // ─── Set initial state ──────────────────────────────────────────────────────
   document.getElementById('app-root').setAttribute('data-current-screen', 'cover');
